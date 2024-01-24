@@ -149,7 +149,7 @@ namespace PalWorld_Server_Edit
         private void btnSave_Click(object sender, EventArgs e)
         {
             string filePath = DlgLoad.FileName;
-            string content = File.ReadAllText(filePath);
+            string content = File.ReadAllText(filePath, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
             int startIndex = content.IndexOf("OptionSettings = (");
             int endIndex = content.IndexOf(")", startIndex);
 
@@ -166,7 +166,7 @@ namespace PalWorld_Server_Edit
             content = content.Remove(startIndex + "OptionSettings = (".Length, endIndex - startIndex - "OptionSettings = (".Length)
                         .Insert(startIndex + "OptionSettings = (".Length, concatenatedString);
 
-            File.WriteAllText(filePath, content);
+            File.WriteAllText(filePath, content, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
 
             MessageBox.Show("Settings saved successfully.");
         }
@@ -224,7 +224,7 @@ namespace PalWorld_Server_Edit
         {
             if (File.ReadAllText(txtServLoc.Text).Length == 0)
             {
-                File.WriteAllText(txtServLoc.Text, defaultSettings);
+                File.WriteAllText(txtServLoc.Text, defaultSettings, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
             }
 
             CreateDisplay(Pnl1);
