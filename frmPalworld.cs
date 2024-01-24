@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Net;
 using Newtonsoft.Json.Linq;
@@ -272,31 +273,6 @@ namespace PalWorld_Server_Edit
             return string.Compare(currentVersion, latestVersion) < 0;
         }
 
-        private async Task DownloadAndInstallUpdate()
-        {
-            string downloadUrl = "https://github.com/yourGitHubUsername/yourGitHubRepository/releases/latest/download/yourAppName.zip";
-            string tempPath = Path.Combine(Path.GetTempPath(), "YourAppNameTemp");
-            string zipFilePath = Path.Combine(tempPath, "update.zip");
-
-            // Download the update zip file
-            using (HttpClient client = new HttpClient())
-            {
-                using (Stream stream = await client.GetStreamAsync(downloadUrl))
-                using (FileStream fs = File.Create(zipFilePath))
-                {
-                    await stream.CopyToAsync(fs);
-                }
-            }
-
-            // Extract the contents to a temporary directory
-            ZipFile.ExtractToDirectory(zipFilePath, tempPath);
-
-            // Perform any update tasks (e.g., replacing old files)
-
-            // Clean up temporary files
-            File.Delete(zipFilePath);
-            Directory.Delete(tempPath, true);
-        }
 
         private async Task CheckForUpdates()
         {
@@ -314,31 +290,10 @@ namespace PalWorld_Server_Edit
             }
         }
 
-        private async void btnUpdate_Click(object sender, EventArgs e)
+        private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("An update is available. Do you want to install it?", "Update Available", MessageBoxButtons.YesNo);
-
-            if (result == DialogResult.Yes)
-            {
-                await Task.Run(async () =>
-                {
-                    try
-                    {
-                        await DownloadAndInstallUpdate();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error installing update: {ex.Message}", "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                });
-
-                // Ensure UI update on the UI thread
-                Invoke((MethodInvoker)delegate
-                {
-                    MessageBox.Show("Update installed successfully. Please restart the application.");
-                    Application.Exit();
-                });
-            }
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/Bentheck/Palworld-Server-Setting-Editor/releases") { CreateNoWindow = true });
+            Application.Exit();
         }
     }
 }
