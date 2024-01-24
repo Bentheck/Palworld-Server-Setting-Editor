@@ -1,7 +1,6 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
+using System.IO.Compression;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace PalWorld_Server_Edit
 {
@@ -34,9 +33,17 @@ namespace PalWorld_Server_Edit
                                         "RCONEnabled = False, RCONPort = 25575, Region = \"\", bUseAuth = True, " +
                                         "BanListURL = \"https://api.palworldgame.com/api/banlist.txt\")";
 
+        public string vers = "V1.2";
+
         public frmPalworld()
         {
             InitializeComponent();
+            Load += frmPalworld_Load;
+        }
+
+        private async void frmPalworld_Load(object sender, EventArgs e)
+        {
+            await CheckForUpdates();
         }
 
         private readonly Dictionary<string, Control> labelControlMap = new Dictionary<string, Control>();
@@ -149,6 +156,15 @@ namespace PalWorld_Server_Edit
         private void btnSave_Click(object sender, EventArgs e)
         {
             string filePath = DlgLoad.FileName;
+
+            // Check if the file exists
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("File does not exist.");
+                return;
+            }
+
+            // Read content from the file
             string content = File.ReadAllText(filePath, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
             int startIndex = content.IndexOf("OptionSettings = (");
             int endIndex = content.IndexOf(")", startIndex);
@@ -166,6 +182,7 @@ namespace PalWorld_Server_Edit
             content = content.Remove(startIndex + "OptionSettings = (".Length, endIndex - startIndex - "OptionSettings = (".Length)
                         .Insert(startIndex + "OptionSettings = (".Length, concatenatedString);
 
+            // Write the content back to the file
             File.WriteAllText(filePath, content, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
 
             MessageBox.Show("Settings saved successfully.");
@@ -228,6 +245,100 @@ namespace PalWorld_Server_Edit
             }
 
             CreateDisplay(Pnl1);
+        }
+
+        private async Task<string> GetLatestVersionFromGitHub()
+        {
+            string repoOwner = "Bentheck";
+            string repoName = "Palworld-Server-Setting-Editor";
+
+            using (HttpClient client = new HttpClient())
+            {
+                string apiUrl = $"https://api.github.com/repos/{repoOwner}/{repoName}/releases/latest";
+                client.DefaultRequestHeaders.Add("User-Agent", "request");
+                string json = await client.GetStringAsync(apiUrl);
+
+                JObject releaseInfo = JObject.Parse(json);
+                string latestVersion = releaseInfo["tag_name"].ToString();
+
+                return latestVersion;
+            }
+        }
+
+        private bool IsUpdateAvailable(string currentVersion, string latestVersion)
+        {
+            // Implement your version comparison logic here
+            // Example: Compare major, minor, build, etc.
+            return string.Compare(currentVersion, latestVersion) < 0;
+        }
+
+        private async Task DownloadAndInstallUpdate()
+        {
+            string downloadUrl = "https://github.com/yourGitHubUsername/yourGitHubRepository/releases/latest/download/yourAppName.zip";
+            string tempPath = Path.Combine(Path.GetTempPath(), "YourAppNameTemp");
+            string zipFilePath = Path.Combine(tempPath, "update.zip");
+
+            // Download the update zip file
+            using (HttpClient client = new HttpClient())
+            {
+                using (Stream stream = await client.GetStreamAsync(downloadUrl))
+                using (FileStream fs = File.Create(zipFilePath))
+                {
+                    await stream.CopyToAsync(fs);
+                }
+            }
+
+            // Extract the contents to a temporary directory
+            ZipFile.ExtractToDirectory(zipFilePath, tempPath);
+
+            // Perform any update tasks (e.g., replacing old files)
+
+            // Clean up temporary files
+            File.Delete(zipFilePath);
+            Directory.Delete(tempPath, true);
+        }
+
+        private async Task CheckForUpdates()
+        {
+            string currentVersion = vers; // Replace with your actual version
+            string latestVersion = await GetLatestVersionFromGitHub(); // Use await here
+
+            if (IsUpdateAvailable(currentVersion, latestVersion))
+            {
+                // Ensure UI update on the UI thread
+                Invoke((MethodInvoker)delegate
+                {
+                    lblUpdate.Visible = true;
+                    btnUpdate.Visible = true;
+                });
+            }
+        }
+
+        private async void btnUpdate_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("An update is available. Do you want to install it?", "Update Available", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        await DownloadAndInstallUpdate();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error installing update: {ex.Message}", "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                });
+
+                // Ensure UI update on the UI thread
+                Invoke((MethodInvoker)delegate
+                {
+                    MessageBox.Show("Update installed successfully. Please restart the application.");
+                    Application.Exit();
+                });
+            }
         }
     }
 }

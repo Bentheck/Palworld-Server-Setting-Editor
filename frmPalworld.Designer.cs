@@ -34,6 +34,8 @@
             txtServLoc = new TextBox();
             btnSave = new Button();
             Pnl1 = new Panel();
+            btnUpdate = new Button();
+            lblUpdate = new Label();
             SuspendLayout();
             // 
             // btnLoad
@@ -73,11 +75,36 @@
             Pnl1.Size = new Size(558, 483);
             Pnl1.TabIndex = 4;
             // 
+            // btnUpdate
+            // 
+            btnUpdate.Location = new Point(495, 530);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(75, 23);
+            btnUpdate.TabIndex = 5;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Visible = false;
+            btnUpdate.Click += btnUpdate_Click;
+            // 
+            // lblUpdate
+            // 
+            lblUpdate.AutoSize = true;
+            lblUpdate.Font = new Font("Segoe UI", 12F);
+            lblUpdate.ForeColor = Color.Red;
+            lblUpdate.Location = new Point(344, 530);
+            lblUpdate.Name = "lblUpdate";
+            lblUpdate.Size = new Size(145, 21);
+            lblUpdate.TabIndex = 6;
+            lblUpdate.Text = "Update is available!";
+            lblUpdate.Visible = false;
+            // 
             // frmPalworld
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(582, 565);
+            Controls.Add(lblUpdate);
+            Controls.Add(btnUpdate);
             Controls.Add(Pnl1);
             Controls.Add(btnSave);
             Controls.Add(txtServLoc);
@@ -97,5 +124,7 @@
         private TextBox txtServLoc;
         private Button btnSave;
         private Panel Pnl1;
+        private Button btnUpdate;
+        private Label lblUpdate;
     }
 }
