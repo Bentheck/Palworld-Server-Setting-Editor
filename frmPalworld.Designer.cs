@@ -34,7 +34,6 @@
             txtServLoc = new TextBox();
             btnSave = new Button();
             Pnl1 = new Panel();
-            btnClear = new Button();
             SuspendLayout();
             // 
             // btnLoad
@@ -74,22 +73,11 @@
             Pnl1.Size = new Size(558, 483);
             Pnl1.TabIndex = 4;
             // 
-            // btnClear
-            // 
-            btnClear.Location = new Point(495, 530);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(75, 23);
-            btnClear.TabIndex = 5;
-            btnClear.Text = "Clear";
-            btnClear.UseVisualStyleBackColor = true;
-            btnClear.Click += btnClear_Click;
-            // 
             // frmPalworld
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(582, 565);
-            Controls.Add(btnClear);
             Controls.Add(Pnl1);
             Controls.Add(btnSave);
             Controls.Add(txtServLoc);
@@ -109,6 +97,5 @@
         private TextBox txtServLoc;
         private Button btnSave;
         private Panel Pnl1;
-        private Button btnClear;
     }
 }

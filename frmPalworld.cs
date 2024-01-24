@@ -39,14 +39,14 @@ namespace PalWorld_Server_Edit
             InitializeComponent();
         }
 
-        private readonly Dictionary<string, TextBox> labelTextBoxMap = new Dictionary<string, TextBox>();
+        private readonly Dictionary<string, Control> labelControlMap = new Dictionary<string, Control>();
+        private bool isFirstLoad = true;
 
         private void CreateDisplay(Panel container)
         {
             int y = 10;
             int maxLabelWidth = 0;
 
-            // Check if the file path is not empty
             if (!string.IsNullOrEmpty(txtServLoc.Text))
             {
                 var str = File.ReadLines(txtServLoc.Text)
@@ -54,7 +54,6 @@ namespace PalWorld_Server_Edit
                               .Take(1)
                               .FirstOrDefault();
 
-                // Assuming the settings are enclosed in parentheses
                 if (str != null)
                 {
                     str = str.Substring(str.IndexOf('(') + 1, str.LastIndexOf(')') - str.IndexOf('(') - 1);
@@ -68,15 +67,31 @@ namespace PalWorld_Server_Edit
 
                     foreach (var value in values)
                     {
-                        TextBox textBox = CreateControl(container, value.Trim(), y, maxLabelWidth);
-                        labelTextBoxMap.Add(value.Split('=')[0].Trim(), textBox);
+                        string label = value.Split('=')[0].Trim();
+                        Control control;
+
+                        if (!labelControlMap.ContainsKey(label))
+                        {
+                            // Create a control only if it does not exist in the map
+                            control = CreateControl(container, value.Trim(), y, maxLabelWidth);
+                            labelControlMap.Add(label, control);
+                        }
+                        else
+                        {
+                            // Retrieve the existing control from the map
+                            control = labelControlMap[label];
+                        }
+
+                        // Update the value of the control
+                        UpdateControlValue(control, value.Split('=')[1].Trim());
+
                         y += 30; // Adjust spacing as needed
                     }
                 }
             }
         }
 
-        TextBox CreateControl(Panel container, string value, int y, int maxLabelWidth)
+        private Control CreateControl(Panel container, string value, int y, int maxLabelWidth)
         {
             // Create a label
             Label label = new Label();
@@ -84,109 +99,135 @@ namespace PalWorld_Server_Edit
             label.AutoSize = true;
             label.Location = new System.Drawing.Point(10, y);
 
-            // Create a textbox
-            TextBox textBox = new TextBox();
-            textBox.Name = label.Text; // Set a unique name for the textbox
-            textBox.Text = value.Split('=')[1].Trim();
-            textBox.Location = new System.Drawing.Point(20 + maxLabelWidth, y);
-            textBox.Width = 100;
+            // Create a control (textbox or dropdown)
+            Control control = CreateControlBasedOnValue(value.Split('=')[1].Trim());
+            control.Name = label.Text; // Set a unique name for the control
+            control.Location = new System.Drawing.Point(20 + maxLabelWidth, y);
+            control.Width = 100;
 
-            // Add the label and textbox to the Panel
+            // Add the label and control to the Panel
             container.Controls.Add(label);
-            container.Controls.Add(textBox);
+            container.Controls.Add(control);
 
-            return textBox;
+            return control;
+        }
+
+        private Control CreateControlBasedOnValue(string value)
+        {
+            // Check if the value is true or false
+            if (value.Equals("True", StringComparison.OrdinalIgnoreCase) || value.Equals("False", StringComparison.OrdinalIgnoreCase))
+            {
+                // Create a dropdown for true/false
+                ComboBox dropdown = new ComboBox();
+                dropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+                dropdown.Items.Add("True");
+                dropdown.Items.Add("False");
+                dropdown.SelectedIndex = value.Equals("True", StringComparison.OrdinalIgnoreCase) ? 0 : 1;
+                return dropdown;
+            }
+            else
+            {
+                // Create a textbox
+                TextBox textBox = new TextBox();
+                return textBox;
+            }
+        }
+
+        private void UpdateControlValue(Control control, string value)
+        {
+            // Update the value of the control based on its type
+            if (control is TextBox textBox)
+            {
+                textBox.Text = value;
+            }
+            else if (control is ComboBox dropdown)
+            {
+                dropdown.SelectedIndex = value.Equals("True", StringComparison.OrdinalIgnoreCase) ? 0 : 1;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Get the current file path
             string filePath = DlgLoad.FileName;
-
-            // Read the existing content
             string content = File.ReadAllText(filePath);
-
-            // Find the start and end indexes of OptionSettings
             int startIndex = content.IndexOf("OptionSettings = (");
             int endIndex = content.IndexOf(")", startIndex);
 
-            // Create a string to concatenate labels and text boxes
             string concatenatedString = "";
 
-            // Update the content based on the text boxes
-            foreach (var entry in labelTextBoxMap)
+            foreach (var entry in labelControlMap)
             {
                 string label = entry.Key;
-                TextBox textBox = entry.Value;
-
-                // Concatenate label and text box values
-                concatenatedString += $"{label} = {textBox.Text.Trim()}, ";
+                Control control = entry.Value;
+                concatenatedString += $"{label} = {GetControlValue(control)}, ";
             }
 
-            // Remove the trailing comma and space
             concatenatedString = concatenatedString.TrimEnd(',', ' ');
-
-            // Replace the value in the content
             content = content.Remove(startIndex + "OptionSettings = (".Length, endIndex - startIndex - "OptionSettings = (".Length)
                         .Insert(startIndex + "OptionSettings = (".Length, concatenatedString);
 
-            // Write the updated content back to the file without clearing it
             File.WriteAllText(filePath, content);
 
             MessageBox.Show("Settings saved successfully.");
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
+        private string GetControlValue(Control control)
         {
-            bool x = false;
-            bool valide = false;
-
-            do
+            // Return the value of the control based on its type
+            if (control is TextBox textBox)
             {
-                rep = DlgLoad.ShowDialog();
-                if (DlgLoad.FileName.EndsWith("PalWorldSettings.ini"))
-                {
-                    x = true;
-                    txtServLoc.Text = DlgLoad.FileName.ToString();
-                }
-                if (rep == DialogResult.OK)
-                {
-                    if (x == true)
-                    {
-                        MessageBox.Show("Server settings loaded.");
-                        valide = false;
-                        if (File.ReadAllText(txtServLoc.Text).Length == 0)
-                        {
-                            File.WriteAllText(txtServLoc.Text, defaultSettings);
-                        }
-
-                        // Clear existing controls in the Panel
-                        Pnl1.Controls.Clear();
-
-                        // Pass the Panel as the container
-                        CreateDisplay(Pnl1);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Wrong file loaded.");
-                        valide = true;
-                    }
-                }
-                else if (rep == DialogResult.Cancel)
-                {
-                    MessageBox.Show("No file loaded.");
-                    break;
-                }
-            } while (valide == true);
+                return textBox.Text.Trim();
+            }
+            else if (control is ComboBox dropdown)
+            {
+                return dropdown.SelectedItem.ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        private void btnLoad_Click(object sender, EventArgs e)
         {
-            // Clear existing controls in the Panel
-            Pnl1.Controls.Clear();
+            rep = DlgLoad.ShowDialog();
 
-            // Reset the labelTextBoxMap
-            labelTextBoxMap.Clear();
+            if (rep == DialogResult.OK)
+            {
+                if (DlgLoad.FileName.EndsWith("PalWorldSettings.ini"))
+                {
+                    txtServLoc.Text = DlgLoad.FileName;
+
+                    if (isFirstLoad)
+                    {
+                        // Clear existing controls in the Panel on the first load
+                        Pnl1.Controls.Clear();
+                    }
+
+                    LoadAndDisplaySettings();
+                    MessageBox.Show("Server settings loaded.");
+
+                    isFirstLoad = false;
+                }
+                else
+                {
+                    MessageBox.Show("Wrong file loaded.");
+                }
+            }
+            else if (rep == DialogResult.Cancel)
+            {
+                MessageBox.Show("No file loaded.");
+            }
+        }
+
+        private void LoadAndDisplaySettings()
+        {
+            if (File.ReadAllText(txtServLoc.Text).Length == 0)
+            {
+                File.WriteAllText(txtServLoc.Text, defaultSettings);
+            }
+
+            CreateDisplay(Pnl1);
         }
     }
 }
