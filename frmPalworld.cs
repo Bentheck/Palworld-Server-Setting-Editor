@@ -36,7 +36,7 @@ namespace PalWorld_Server_Edit
                                         "RCONEnabled = False, RCONPort = 25575, Region = \"\", bUseAuth = True, " +
                                         "BanListURL = \"https://api.palworldgame.com/api/banlist.txt\")";
 
-        public string vers = "V1.2.1";
+        public string vers = "V1.2.2";
 
         public frmPalworld()
         {
@@ -174,7 +174,7 @@ namespace PalWorld_Server_Edit
             int startIndex = content.IndexOf("OptionSettings = (");
             if (startIndex == -1)
             {
-                MessageBox.Show("Invalid file format. OptionSettings not found.");
+                MessageBox.Show("Invalid file format. OptionSettings not found. Try running as administrator");
                 return;
             }
 
@@ -233,16 +233,14 @@ namespace PalWorld_Server_Edit
 
             if (rep == DialogResult.OK)
             {
-                if (DlgLoad.FileName.Equals("PalWorldSettings.ini"))
+                if (Path.GetFileName(filePath).Trim() == "PalWorldSettings.ini")
                 {
                     txtServLoc.Text = DlgLoad.FileName;
 
                     if (isFirstLoad)
                     {
-                        
                         // Clear existing controls in the Panel on the first load
                         Pnl1.Controls.Clear();
-
                     }
 
                     LoadAndDisplaySettings();
@@ -252,7 +250,7 @@ namespace PalWorld_Server_Edit
                 }
                 else
                 {
-                    MessageBox.Show("Wrong file loaded.");
+                    MessageBox.Show("Wrong file loaded. Please select a file named PalWorldSettings.ini.");
                 }
             }
             else if (rep == DialogResult.Cancel)
