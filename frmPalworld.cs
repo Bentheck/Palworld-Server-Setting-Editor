@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using System.IO.Compression;
+using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 
 namespace PalWorld_Server_Edit
@@ -156,7 +158,7 @@ namespace PalWorld_Server_Edit
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            string filePath = DlgLoad.FileName;
+            string filePath = txtServLoc.Text;
 
             // Check if the file exists
             if (!File.Exists(filePath))
@@ -227,17 +229,20 @@ namespace PalWorld_Server_Edit
         private void btnLoad_Click(object sender, EventArgs e)
         {
             rep = DlgLoad.ShowDialog();
+            string filePath = DlgLoad.FileName;
 
             if (rep == DialogResult.OK)
             {
-                if (DlgLoad.FileName.EndsWith("PalWorldSettings.ini"))
+                if (DlgLoad.FileName.Equals("PalWorldSettings.ini"))
                 {
                     txtServLoc.Text = DlgLoad.FileName;
 
                     if (isFirstLoad)
                     {
+                        
                         // Clear existing controls in the Panel on the first load
                         Pnl1.Controls.Clear();
+
                     }
 
                     LoadAndDisplaySettings();
@@ -258,14 +263,14 @@ namespace PalWorld_Server_Edit
 
         private void LoadAndDisplaySettings()
         {
-            string filePath = DlgLoad.FileName;
+            string a = File.ReadAllText(DlgLoad.FileName).ToString();
 
-            if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
+
+            if ( string.IsNullOrEmpty(a))
             {
-                File.WriteAllText(filePath, defaultSettings, System.Text.Encoding.UTF8);
+                File.WriteAllText(DlgLoad.FileName, defaultSettings, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
             }
 
-            txtServLoc.Text = filePath;
             CreateDisplay(Pnl1);
         }
 
