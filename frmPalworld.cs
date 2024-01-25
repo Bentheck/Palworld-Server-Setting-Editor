@@ -34,7 +34,7 @@ namespace PalWorld_Server_Edit
                                         "RCONEnabled = False, RCONPort = 25575, Region = \"\", bUseAuth = True, " +
                                         "BanListURL = \"https://api.palworldgame.com/api/banlist.txt\")";
 
-        public string vers = "V1.2";
+        public string vers = "V1.2.1";
 
         public frmPalworld()
         {
@@ -167,7 +167,15 @@ namespace PalWorld_Server_Edit
 
             // Read content from the file
             string content = File.ReadAllText(filePath, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
+
+            // Check if the content contains "OptionSettings = ("
             int startIndex = content.IndexOf("OptionSettings = (");
+            if (startIndex == -1)
+            {
+                MessageBox.Show("Invalid file format. OptionSettings not found.");
+                return;
+            }
+
             int endIndex = content.IndexOf(")", startIndex);
 
             string concatenatedString = "";
@@ -180,13 +188,23 @@ namespace PalWorld_Server_Edit
             }
 
             concatenatedString = concatenatedString.TrimEnd(',', ' ');
-            content = content.Remove(startIndex + "OptionSettings = (".Length, endIndex - startIndex - "OptionSettings = (".Length)
-                        .Insert(startIndex + "OptionSettings = (".Length, concatenatedString);
 
-            // Write the content back to the file
-            File.WriteAllText(filePath, content, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
+            try
+            {
+                // Write the content back to the file
+                File.WriteAllText(filePath, content.Remove(startIndex + "OptionSettings = (".Length, endIndex - startIndex - "OptionSettings = (".Length)
+                            .Insert(startIndex + "OptionSettings = (".Length, concatenatedString), System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
 
-            MessageBox.Show("Settings saved successfully.");
+                MessageBox.Show("Settings saved successfully.");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Please run the editor as administrator due to your file location.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
         }
 
         private string GetControlValue(Control control)
@@ -240,11 +258,14 @@ namespace PalWorld_Server_Edit
 
         private void LoadAndDisplaySettings()
         {
-            if (File.ReadAllText(txtServLoc.Text).Length == 0)
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "PalWorldSettings.ini");
+
+            if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
             {
-                File.WriteAllText(txtServLoc.Text, defaultSettings, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
+                File.WriteAllText(filePath, defaultSettings, System.Text.Encoding.UTF8);
             }
 
+            txtServLoc.Text = filePath;
             CreateDisplay(Pnl1);
         }
 
