@@ -258,7 +258,7 @@ namespace PalWorld_Server_Edit
 
         private void LoadAndDisplaySettings()
         {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "PalWorldSettings.ini");
+            string filePath = DlgLoad.FileName;
 
             if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
             {
