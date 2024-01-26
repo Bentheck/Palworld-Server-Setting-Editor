@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace PalWorld_Server_Edit
 {
@@ -36,7 +37,7 @@ namespace PalWorld_Server_Edit
                                         "RCONEnabled = False, RCONPort = 25575, Region = \"\", bUseAuth = True, " +
                                         "BanListURL = \"https://api.palworldgame.com/api/banlist.txt\")";
 
-        public string vers = "V1.2.2";
+        public string vers = "V1.2.3";
 
         public frmPalworld()
         {
@@ -170,14 +171,15 @@ namespace PalWorld_Server_Edit
             // Read content from the file
             string content = File.ReadAllText(filePath, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
 
-            // Check if the content contains "OptionSettings = ("
-            int startIndex = content.IndexOf("OptionSettings = (");
-            if (startIndex == -1)
+            // Use regular expression to find the OptionSettings block
+            Match match = Regex.Match(content, @"OptionSettings\s*=\s*\(");
+            if (!match.Success)
             {
                 MessageBox.Show("Invalid file format. OptionSettings not found. Try running as administrator");
                 return;
             }
 
+            int startIndex = match.Index;
             int endIndex = content.IndexOf(")", startIndex);
 
             string concatenatedString = "";
@@ -186,16 +188,22 @@ namespace PalWorld_Server_Edit
             {
                 string label = entry.Key;
                 Control control = entry.Value;
-                concatenatedString += $"{label} = {GetControlValue(control)}, ";
+                concatenatedString += $"{label}={GetControlValue(control)}, ";
             }
 
             concatenatedString = concatenatedString.TrimEnd(',', ' ');
 
+            int lengthToRemove = endIndex - startIndex + 1;
+
             try
             {
-                // Write the content back to the file
-                File.WriteAllText(filePath, content.Remove(startIndex + "OptionSettings = (".Length, endIndex - startIndex - "OptionSettings = (".Length)
-                            .Insert(startIndex + "OptionSettings = (".Length, concatenatedString), System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
+                // Construct the new content string with OptionSettings=() block replaced
+                string newContent = content.Substring(0, startIndex) +
+                                    "OptionSettings=(" + concatenatedString + ")" +
+                                    content.Substring(endIndex + 1);
+
+                // Write the new content back to the file
+                File.WriteAllText(filePath, newContent, System.Text.Encoding.UTF8);
 
                 MessageBox.Show("Settings saved successfully.");
             }
