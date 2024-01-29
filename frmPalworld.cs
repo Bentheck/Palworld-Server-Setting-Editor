@@ -37,7 +37,7 @@ namespace PalWorld_Server_Edit
                                         "RCONEnabled = False, RCONPort = 25575, Region = \"\", bUseAuth = True, " +
                                         "BanListURL = \"https://api.palworldgame.com/api/banlist.txt\")";
 
-        public string vers = "V1.2.3";
+        public string vers = "V1.2.4";
 
         public frmPalworld()
         {

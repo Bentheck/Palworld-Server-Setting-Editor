@@ -40,6 +40,7 @@
             // 
             // btnLoad
             // 
+            btnLoad.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnLoad.Location = new Point(504, 12);
             btnLoad.Name = "btnLoad";
             btnLoad.Size = new Size(75, 25);
@@ -50,6 +51,7 @@
             // 
             // txtServLoc
             // 
+            txtServLoc.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtServLoc.Location = new Point(12, 12);
             txtServLoc.Name = "txtServLoc";
             txtServLoc.PlaceholderText = "\\steamapps\\common\\PalServer\\Pal\\Saved\\Config\\WindowsServer\\PalWorldSettings.ini";
@@ -59,6 +61,7 @@
             // 
             // btnSave
             // 
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnSave.Location = new Point(251, 530);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(75, 25);
@@ -69,6 +72,7 @@
             // 
             // Pnl1
             // 
+            Pnl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Pnl1.AutoScroll = true;
             Pnl1.Location = new Point(12, 41);
             Pnl1.Name = "Pnl1";
@@ -77,6 +81,7 @@
             // 
             // lblUpdate
             // 
+            lblUpdate.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lblUpdate.AutoSize = true;
             lblUpdate.Font = new Font("Segoe UI", 12F);
             lblUpdate.ForeColor = Color.Red;
@@ -89,6 +94,7 @@
             // 
             // btnUpdate
             // 
+            btnUpdate.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnUpdate.Location = new Point(483, 530);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(87, 25);
@@ -102,13 +108,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(600, 605);
-            MinimumSize = new Size(600, 605);
-            MaximumSize = new Size(600, 605);
+            AutoScroll = true;
+            ClientSize = new Size(600, 564);
             Controls.Add(btnUpdate);
+            Controls.Add(btnSave);
             Controls.Add(lblUpdate);
             Controls.Add(Pnl1);
-            Controls.Add(btnSave);
             Controls.Add(txtServLoc);
             Controls.Add(btnLoad);
             FormBorderStyle = FormBorderStyle.FixedDialog;
