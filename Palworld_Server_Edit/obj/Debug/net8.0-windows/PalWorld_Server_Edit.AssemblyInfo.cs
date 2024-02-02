@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PalWorld_Server_Edit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.2.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.2.4+154d2660e2f748224755962dc014bb30ee796c21")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.2.4+a7b98f8e44ab99b997e2ab87d4dedbd6ec302678")]
 [assembly: System.Reflection.AssemblyProductAttribute("PalWorld_Server_Edit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PalWorld_Server_Edit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.2.4.0")]

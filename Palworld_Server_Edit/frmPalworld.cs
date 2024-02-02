@@ -330,7 +330,13 @@ namespace PalWorld_Server_Edit
 
         private void btnLimits_Click(object sender, EventArgs e)
         {
-
+            // Create and start a new thread to open the second form
+            Thread secondFormThread = new Thread(() =>
+            {
+                Application.Run(new frmLimits());
+            });
+            secondFormThread.SetApartmentState(ApartmentState.STA);
+            secondFormThread.Start();
         }
     }
 }

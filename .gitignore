@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Palworld_Server_Edit/FileContentIndex/266b07f0-b664-4a5d-872c-a48cbd94e5f2.vsidx
+/.vs/Palworld_Server_Edit/FileContentIndex/33197c5b-44f4-4b9c-ac04-d3ee8467cab9.vsidx
+*.vsidx

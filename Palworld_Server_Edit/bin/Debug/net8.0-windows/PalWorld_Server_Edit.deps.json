@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "PalWorld_Server_Edit/1.2.1": {
+      "PalWorld_Server_Edit/1.2.4": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         },
@@ -25,7 +25,7 @@
     }
   },
   "libraries": {
-    "PalWorld_Server_Edit/1.2.1": {
+    "PalWorld_Server_Edit/1.2.4": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
