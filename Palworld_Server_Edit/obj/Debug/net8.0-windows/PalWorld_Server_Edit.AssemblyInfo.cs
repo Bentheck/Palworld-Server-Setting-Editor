@@ -12,9 +12,9 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("PalWorld_Server_Edit")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.2.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.2.4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.2.4+148ca01dfe8cd2839988d2f8a1c67b3d6c650e64")]
 [assembly: System.Reflection.AssemblyProductAttribute("PalWorld_Server_Edit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PalWorld_Server_Edit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.2.4.0")]

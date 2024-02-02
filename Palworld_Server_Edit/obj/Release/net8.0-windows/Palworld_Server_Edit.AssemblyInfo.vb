@@ -14,9 +14,9 @@ Option Explicit On
 Imports System
 Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("Palworld_Server_Edit"),  _
- Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
+ Assembly: System.Reflection.AssemblyConfigurationAttribute("Release"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+148ca01dfe8cd2839988d2f8a1c67b3d6c650e64"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("Palworld_Server_Edit"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("Palworld_Server_Edit"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _
