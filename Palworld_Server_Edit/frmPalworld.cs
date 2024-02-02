@@ -37,7 +37,7 @@ namespace PalWorld_Server_Edit
                                         "RCONEnabled = False, RCONPort = 25575, Region = \"\", bUseAuth = True, " +
                                         "BanListURL = \"https://api.palworldgame.com/api/banlist.txt\")";
 
-        public string vers = "V1.2.4";
+        public string vers = "V1.2.5";
 
         public frmPalworld()
         {
@@ -272,7 +272,7 @@ namespace PalWorld_Server_Edit
             string a = File.ReadAllText(DlgLoad.FileName).ToString();
 
 
-            if ( string.IsNullOrEmpty(a))
+            if (string.IsNullOrEmpty(a))
             {
                 File.WriteAllText(DlgLoad.FileName, defaultSettings, System.Text.Encoding.UTF8); // Explicitly specify UTF-8 encoding
             }
@@ -326,6 +326,11 @@ namespace PalWorld_Server_Edit
         {
             Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/Bentheck/Palworld-Server-Setting-Editor/releases") { CreateNoWindow = true });
             Application.Exit();
+        }
+
+        private void btnLimits_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

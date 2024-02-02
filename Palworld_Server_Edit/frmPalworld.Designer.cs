@@ -36,6 +36,7 @@
             Pnl1 = new Panel();
             lblUpdate = new Label();
             btnUpdate = new Button();
+            btnLimits = new Button();
             SuspendLayout();
             // 
             // btnLoad
@@ -104,12 +105,24 @@
             btnUpdate.Visible = false;
             btnUpdate.Click += btnUpdate_Click;
             // 
+            // btnLimits
+            // 
+            btnLimits.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnLimits.Location = new Point(12, 530);
+            btnLimits.Name = "btnLimits";
+            btnLimits.Size = new Size(75, 25);
+            btnLimits.TabIndex = 8;
+            btnLimits.Text = "Limitations";
+            btnLimits.UseVisualStyleBackColor = true;
+            btnLimits.Click += btnLimits_Click;
+            // 
             // frmPalworld
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(600, 564);
+            Controls.Add(btnLimits);
             Controls.Add(btnUpdate);
             Controls.Add(btnSave);
             Controls.Add(lblUpdate);
@@ -133,5 +146,6 @@
         private Panel Pnl1;
         private Label lblUpdate;
         private Button btnUpdate;
+        private Button btnLimits;
     }
 }

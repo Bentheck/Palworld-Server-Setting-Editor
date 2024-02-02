@@ -4,6 +4,9 @@
     <_LastSelectedProfileId>D:\source\repos\Palworld_Server_Edit\PalWorld_Server_Edit\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="frmLimits.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="frmPalworld.cs">
       <SubType>Form</SubType>
     </Compile>
