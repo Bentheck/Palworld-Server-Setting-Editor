@@ -1,2 +1,0 @@
-D:\source\repos\Palworld_Server_Edit\PalWorld_Server_Edit\bin\Release\net8.0-windows\publish\win-x64\PalWorld_Server_Edit.pdb
-D:\source\repos\Palworld_Server_Edit\PalWorld_Server_Edit\bin\Release\net8.0-windows\publish\win-x64\PalWorld_Server_Edit.exe
