@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ziGDZN58tAGfXOeWIMBerlWeB/IFH9JJNmmOZYGC2L0XF9WQmR7C7lTaTBzNX0l2PHbW5xtP1osUplqPBzlXMg==",
+  "dgSpecHash": "mSlfUt276pwh9ZQzl3N4h8/QQZgX3l9Ln4SBmj47d4RoaFryAgH7ZFAT9csV1n2tI8/TITZ7vQ2OkkGqV8dydA==",
   "success": true,
-  "projectFilePath": "D:\\source\\repos\\Palworld_Server_Edit\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj",
+  "projectFilePath": "D:\\source\\repos\\Palworld-Server-Setting-Editor\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\benth\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],

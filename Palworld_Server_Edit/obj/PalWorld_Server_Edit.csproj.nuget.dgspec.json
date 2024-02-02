@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\source\\repos\\Palworld_Server_Edit\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj": {}
+    "D:\\source\\repos\\Palworld-Server-Setting-Editor\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj": {}
   },
   "projects": {
-    "D:\\source\\repos\\Palworld_Server_Edit\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj": {
+    "D:\\source\\repos\\Palworld-Server-Setting-Editor\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj": {
       "version": "1.2.4",
       "restore": {
-        "projectUniqueName": "D:\\source\\repos\\Palworld_Server_Edit\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj",
+        "projectUniqueName": "D:\\source\\repos\\Palworld-Server-Setting-Editor\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj",
         "projectName": "PalWorld_Server_Edit",
-        "projectPath": "D:\\source\\repos\\Palworld_Server_Edit\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj",
+        "projectPath": "D:\\source\\repos\\Palworld-Server-Setting-Editor\\PalWorld_Server_Edit\\PalWorld_Server_Edit.csproj",
         "packagesPath": "C:\\Users\\benth\\.nuget\\packages\\",
-        "outputPath": "D:\\source\\repos\\Palworld_Server_Edit\\PalWorld_Server_Edit\\obj\\",
+        "outputPath": "D:\\source\\repos\\Palworld-Server-Setting-Editor\\PalWorld_Server_Edit\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
